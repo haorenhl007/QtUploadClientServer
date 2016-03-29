@@ -1,0 +1,2 @@
+# QtUploadClientServer
+TCP-based
