@@ -30,10 +30,15 @@ Item {
             anchors { fill: parent; margins: 5 }
             contentHeight: __messages.contentHeight
             clip: true
+            onContentHeightChanged: {
+                if (contentHeight > height)
+                    contentY = contentHeight - height;
+            }
+
             Text {
                 id: __messages
                 width: parent.width
-                color: "green"
+                color: "lightgrey"
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }

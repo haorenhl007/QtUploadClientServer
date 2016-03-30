@@ -37,14 +37,15 @@ public:
     bool buttonsAreLocked() const;
 
 public Q_SLOTS:
-    void startTransfer();
-    void updateClientProgress(qint64 numBytes);
-    void displayError(QAbstractSocket::SocketError socketError);
-
     void setTotalSize(int totalSize);
     void setCurrentWritten(int currentWritten);
     void setProgressString(QString progressString);
     void setButtonsAreLocked(bool buttonsAreLocked);
+
+private Q_SLOTS:
+    void onConnected();
+    void updateClientProgress(qint64 numBytes);
+    void displayError(QAbstractSocket::SocketError socketError);
 
 Q_SIGNALS:
     void totalSizeChanged(int totalSize);
@@ -60,9 +61,7 @@ private:
 
     QTcpSocket tcpClient;
 
-    int bytesToWrite;
     int bytesWritten;
-    int bytesReceived;
 
     int m_totalSize;
     int m_currentWritten;

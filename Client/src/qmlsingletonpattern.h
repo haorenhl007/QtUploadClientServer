@@ -4,11 +4,11 @@
 #include <QMutex>
 
 QT_FORWARD_DECLARE_CLASS(QQmlEngine)
-
 QT_FORWARD_DECLARE_CLASS(QJSEngine)
 
 template<class T>
-class qmlSingletonPattern {
+class qmlSingletonPattern
+{
 public:
     qmlSingletonPattern(T &rObject) {
         Q_ASSERT_X(!s_pInstance, "constructor", "Only one instance of this class is permitted.");
