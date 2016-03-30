@@ -20,5 +20,6 @@ HEADERS += \
 
 SOURCES += \
     src/application.cpp \
-    src/main.cpp
+    src/main.cpp \
+    src/qmlsingletonpattern.h
 

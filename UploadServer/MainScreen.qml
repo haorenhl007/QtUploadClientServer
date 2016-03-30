@@ -18,9 +18,9 @@ Item {
         id: __messageWindow
         anchors {
             top: parent.top
-            bottom: __progressBar.top
+            bottom: __buttons.top
             horizontalCenter: parent.horizontalCenter
-            margins: 20
+            margins: 30
         }
         width: 300
         color: "black"
@@ -30,50 +30,30 @@ Item {
             anchors { fill: parent; margins: 5 }
             contentHeight: __messages.contentHeight
             clip: true
+            onContentHeightChanged: {
+                if (contentHeight > height)
+                    contentY = contentHeight - height;
+            }
+
             Text {
                 id: __messages
                 width: parent.width
-                color: "green"
+                color: "lightgrey"
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }
         }
     }
 
-
-    Rectangle {
-        id: __progressBar
-        anchors { centerIn: parent; verticalCenterOffset: 50 }
-        width: 300
-        height: 40
-        color: "lightgrey"
-        border { width: 2; color: "grey" }
-
-        Rectangle {
-            anchors {
-                top: parent.top
-                left: parent.left
-            }
-            width: parent.width * App.currentWritten / App.totalSize
-            height: parent.height
-            color: "blue"
-        }
-
-        Label {
-            anchors.centerIn: parent
-            color: "white"
-            font.pixelSize: 16
-            text: "Received: " + App.progressString
-        }
-    }
-
     Row {
+        id: __buttons
         anchors {
             horizontalCenter: parent.horizontalCenter
-            top: __progressBar.bottom
-            topMargin: 20
+            bottom: parent.bottom
+            bottomMargin: 20
         }
         width: 300
+        height: 30
         spacing: 40
 
         Button {
