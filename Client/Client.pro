@@ -16,10 +16,10 @@ include(deployment.pri)
 
 
 HEADERS += \
-    src/application.h
+    src/application.h \
+    src/qmlsingletonpattern.h
 
 SOURCES += \
     src/application.cpp \
-    src/main.cpp \
-    src/qmlsingletonpattern.h
+    src/main.cpp
 
