@@ -1,4 +1,5 @@
 #include <application.h>
+#include "mythread.h"
 #include <QQmlEngine>
 #include <QtQml>
 #include <QDebug>
@@ -9,15 +10,14 @@ namespace {
     const int min = 0;
 }
 
-static const int totalBytes = 50 * 1024 * 1024;
-static const int payloadSize = 64 * 1024; // 64 KB
-
 Application::Application(QQmlEngine *qEng, QJSEngine *jEng)
     : qmlSingletonPattern<Application>(*this)
     , m_qEng(qEng)
     , m_jsEng(jEng)
 {
     connect(&tcpServer, &QTcpServer::newConnection, this, &Application::onNewConnection);
+//    connect(&tcpServer, &TcpServerProxy::incomingConnectionSignal,
+//            this, &Application::incomingConnection);
 }
 
 void Application::registerInstance()
@@ -46,12 +46,41 @@ void Application::stop()
     Q_EMIT newMessage("Stopped");
 }
 
+QString Application::destPath() const
+{
+    return m_destPath;
+}
+
+void Application::setDestPath(QString destPath)
+{
+    if (m_destPath == destPath)
+        return;
+
+    destPath.remove("file:///");
+    qDebug()<<"new path = "<< destPath;
+
+    m_destPath = destPath;
+    emit destPathChanged(destPath);
+}
+
 void Application::displayError(QAbstractSocket::SocketError socketError)
 {
     if (socketError == QTcpSocket::RemoteHostClosedError)
         return;
 
     tcpServer.close();
+}
+
+void Application::incomingConnection(qintptr socketDescriptor)
+{
+    QString message(tr("Connecting..."));
+    Q_EMIT newMessage(message);
+
+    MyThread *thread = new MyThread(socketDescriptor, this);
+
+    connect(thread, &MyThread::finished, thread, &MyThread::deleteLater);
+
+    thread->start();
 }
 
 void Application::onNewConnection()
@@ -82,10 +111,20 @@ void Application::pSocketReadyRead()
         QByteArray array;
 
         stream >> array;
-        QFile file("C:\\games\\rec.flv");
+        QFile file(m_destPath);//"C:\\games\\rec.jpg");
         file.open(QIODevice::WriteOnly);
         file.write(array);
 
         nextBlockSize = 0;
     }
+}
+
+TcpServerProxy::TcpServerProxy(QObject *parent) :
+    QTcpServer(parent)
+{
+}
+
+void TcpServerProxy::incomingConnection(qintptr socketDescriptor)
+{
+    Q_EMIT incomingConnection(socketDescriptor);
 }

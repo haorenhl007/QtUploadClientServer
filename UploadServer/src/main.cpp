@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 //    app.setOrganizationDomain(Application::ORG_DOMAIN);
 //    app.setOrganizationName(Application::ORG_NAME);
 
-    Application::registerInstance();  // SubClasses(); 
+    Application::registerInstance();
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

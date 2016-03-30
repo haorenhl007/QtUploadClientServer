@@ -52,15 +52,14 @@ Item {
             bottom: parent.bottom
             bottomMargin: 20
         }
-        width: 300
+        width: 320
         height: 30
         spacing: 40
 
         Button {
             id: __startButton
-            width: 130
+            width: 80
             height: 30
-            enabled: !App.buttonsAreLocked
             text: qsTr("start")
 
 
@@ -70,13 +69,37 @@ Item {
         }
 
         Button {
-            id: __selectFileButton
-            width: 130
+            id: __stopButton
+            width: 80
             height: 30
-            enabled: !App.buttonsAreLocked
             text: qsTr("stop")
             onClicked: {
             }
+        }
+        Button {
+            id: __saveFileButton
+            width: 80
+            height: 30
+            text: qsTr("Select file")
+            onClicked: {
+                __fileDialog.savefile();
+            }
+        }
+    }
+
+    FileDialog {
+        id: __fileDialog
+
+        function savefile() {
+            title = qsTr("Save a file")
+            visible = true;
+        }
+
+        selectExisting: false
+        folder: shortcuts.home
+        nameFilters: ["All files (*.*)"]
+        onAccepted: {
+            App.destPath = fileUrl;
         }
     }
 }
