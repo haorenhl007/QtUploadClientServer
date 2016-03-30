@@ -5,6 +5,7 @@ import com.qtuploadClientServer 1.0
 
 
 Item {
+
     Rectangle {
         id: __progressBar
         anchors.centerIn: parent
@@ -59,8 +60,32 @@ Item {
             enabled: !App.buttonsAreLocked
             text: qsTr("Select file")
             onClicked: {
+                fileDialog.selectFile();
             }
         }
     }
+
+
+    FileDialog {
+        id: __fileDialog
+
+        function selectFile() {
+            title = qsTr("Select a file")
+            selectExisting = true;
+            visible = true;
+        }
+
+        selectExisting: true
+        folder: shortcuts.home
+        nameFilters: ["All files (*.*)"]
+        onAccepted: {
+        }
+
+        onRejected: {
+        }
+    }
+
+
+
 }
 
