@@ -5,13 +5,49 @@ import com.qtuploadClientServer 1.0
 
 
 Item {
+    id: screen
+
+    Connections {
+        target: App
+        onNewMessage: {
+            __messages.text += arg + "\n";
+        }
+    }
+
+    Rectangle {
+        id: __messageWindow
+        anchors {
+            top: parent.top
+            bottom: __progressBar.top
+            horizontalCenter: parent.horizontalCenter
+            margins: 20
+        }
+        width: 300
+        color: "black"
+        border { width: 2; color: "grey" }
+
+        Flickable {
+            anchors { fill: parent; margins: 5 }
+            contentHeight: __messages.contentHeight
+            clip: true
+            Text {
+                id: __messages
+                width: parent.width
+                color: "green"
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+        }
+    }
+
 
     Rectangle {
         id: __progressBar
-        anchors.centerIn: parent
+        anchors { centerIn: parent; verticalCenterOffset: 50 }
         width: 300
         height: 40
         color: "lightgrey"
+        border { width: 2; color: "grey" }
 
         Rectangle {
             anchors {
@@ -35,7 +71,7 @@ Item {
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: __progressBar.bottom
-            topMargin: 40
+            topMargin: 20
         }
         width: 300
         spacing: 40

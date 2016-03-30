@@ -3,8 +3,8 @@ import QtQuick.Controls 1.3
 
 ApplicationWindow {
     visible: true
-    width: 440
-    height: 280
+    width: 360
+    height: 300
     title: qsTr("Server")
 
     MainScreen {
