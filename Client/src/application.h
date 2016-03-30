@@ -23,6 +23,7 @@ class Application : public QObject, public qmlSingletonPattern<Application>
     Q_PROPERTY(int currentWritten READ currentWritten WRITE setCurrentWritten NOTIFY currentWrittenChanged)
     Q_PROPERTY(QString progressString READ progressString WRITE setProgressString NOTIFY progressStringChanged)
     Q_PROPERTY(bool buttonsAreLocked READ buttonsAreLocked WRITE setButtonsAreLocked NOTIFY buttonsAreLockedChanged)
+    Q_PROPERTY(QString filePath READ filePath WRITE setFilePath NOTIFY filePathChanged)
 
 public:
     explicit Application(QQmlEngine *qEng, QJSEngine *jEng);
@@ -35,12 +36,14 @@ public:
     int currentWritten() const;
     QString progressString() const;
     bool buttonsAreLocked() const;
+    QString filePath() const;
 
 public Q_SLOTS:
     void setTotalSize(int totalSize);
     void setCurrentWritten(int currentWritten);
     void setProgressString(QString progressString);
     void setButtonsAreLocked(bool buttonsAreLocked);
+    void setFilePath(QString filePath);
 
 private Q_SLOTS:
     void onConnected();
@@ -52,6 +55,7 @@ Q_SIGNALS:
     void currentWrittenChanged(int currentWritten);
     void progressStringChanged(QString progressString);
     void buttonsAreLockedChanged(bool buttonsAreLocked);
+    void filePathChanged(QString filePath);
 
     void newMessage(const QString& arg);
 
@@ -67,4 +71,5 @@ private:
     int m_currentWritten;
     QString m_progressString;
     bool m_buttonsAreLocked;
+    QString m_filePath;
 };

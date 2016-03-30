@@ -17,6 +17,8 @@ Application::Application(QQmlEngine *qEng, QJSEngine *jEng)
     , m_jsEng(jEng)
     , m_totalSize(0)
     , m_buttonsAreLocked(false)
+//    , m_filePath("")
+//    , m_filePath("C:\\games\\test.jpg")
 {
     connect(&tcpClient, &QTcpSocket::connected, this, &Application::onConnected);
     connect(&tcpClient, &QTcpSocket::bytesWritten,
@@ -58,6 +60,11 @@ QString Application::progressString() const
 bool Application::buttonsAreLocked() const
 {
     return m_buttonsAreLocked;
+}
+
+QString Application::filePath() const
+{
+    return m_filePath;
 }
 
 void Application::updateClientProgress(qint64 numBytes)
@@ -120,13 +127,25 @@ void Application::setButtonsAreLocked(bool buttonsAreLocked)
     Q_EMIT buttonsAreLockedChanged(buttonsAreLocked);
 }
 
+void Application::setFilePath(QString filePath)
+{
+    if (m_filePath == filePath)
+        return;
+
+    filePath.remove("file:///");
+    qDebug()<<"new path = "<< filePath;
+
+    m_filePath = filePath;
+    emit filePathChanged(filePath);
+}
+
 void Application::onConnected()
 {
     QByteArray block;
     QDataStream stream(&block, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_4);
 
-    QFile file("C:\\games\\test.flv"); ///////
+    QFile file(m_filePath);
     file.open(QIODevice::ReadOnly);
     QByteArray buf = file.readAll();
     stream << quint64(file.size());

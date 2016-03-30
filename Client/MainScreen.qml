@@ -53,14 +53,14 @@ Item {
         color: "lightgrey"
         border { width: 2; color: "grey" }
 
-        Rectangle {
-            anchors {
-                top: parent.top
-                left: parent.left
-            }
-            width: parent.width * App.currentWritten / App.totalSize
-            height: parent.height
-            color: "blue"
+//        Rectangle {
+//            anchors {
+//                top: parent.top
+//                left: parent.left
+//            }
+//            width: parent.width * App.currentWritten / App.totalSize
+//            height: parent.height
+//            color: "blue"
         }
 
         Label {
@@ -100,19 +100,16 @@ Item {
             enabled: !App.buttonsAreLocked
             text: qsTr("Select file")
             onClicked: {
-//                fileDialog.selectFile();
+                __fileDialog.selectFile();
             }
         }
     }
 
-
-/*
     FileDialog {
         id: __fileDialog
 
         function selectFile() {
             title = qsTr("Select a file")
-            selectExisting = true;
             visible = true;
         }
 
@@ -120,14 +117,11 @@ Item {
         folder: shortcuts.home
         nameFilters: ["All files (*.*)"]
         onAccepted: {
+            App.filePath = fileUrl;
         }
 
         onRejected: {
         }
     }
-*/
-
-
-
 }
 
