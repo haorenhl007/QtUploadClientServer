@@ -17,8 +17,6 @@ Application::Application(QQmlEngine *qEng, QJSEngine *jEng)
     , m_jsEng(jEng)
     , m_totalSize(0)
     , m_buttonsAreLocked(false)
-//    , m_filePath("")
-//    , m_filePath("C:\\games\\test.jpg")
 {
     connect(&tcpClient, &QTcpSocket::connected, this, &Application::onConnected);
     connect(&tcpClient, &QTcpSocket::bytesWritten,

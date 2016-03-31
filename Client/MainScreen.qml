@@ -61,7 +61,7 @@ Item {
 //            width: parent.width * App.currentWritten / App.totalSize
 //            height: parent.height
 //            color: "blue"
-        }
+//        }
 
         Label {
             anchors.centerIn: parent

@@ -111,7 +111,7 @@ void Application::pSocketReadyRead()
         QByteArray array;
 
         stream >> array;
-        QFile file(m_destPath);//"C:\\games\\rec.jpg");
+        QFile file(m_destPath);
         file.open(QIODevice::WriteOnly);
         file.write(array);
 
