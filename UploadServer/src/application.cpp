@@ -14,6 +14,7 @@ Application::Application(QQmlEngine *qEng, QJSEngine *jEng)
     : qmlSingletonPattern<Application>(*this)
     , m_qEng(qEng)
     , m_jsEng(jEng)
+    , m_port(4321)
 {
     connect(&tcpServer, &QTcpServer::newConnection, this, &Application::onNewConnection);
 //    connect(&tcpServer, &TcpServerProxy::incomingConnectionSignal,
@@ -29,7 +30,7 @@ void Application::registerInstance()
 void Application::start()
 {
     if (!tcpServer.isListening()
-            && !tcpServer.listen(QHostAddress::LocalHost, 4321)) {
+            && !tcpServer.listen(QHostAddress::Any, m_port)) {
         QString errorStr ("Unable to start server! ");
         errorStr.append(tcpServer.errorString());
 
@@ -51,6 +52,11 @@ QString Application::destPath() const
     return m_destPath;
 }
 
+int Application::port() const
+{
+    return m_port;
+}
+
 void Application::setDestPath(QString destPath)
 {
     if (m_destPath == destPath)
@@ -61,6 +67,14 @@ void Application::setDestPath(QString destPath)
 
     m_destPath = destPath;
     emit destPathChanged(destPath);
+}
+
+void Application::setPort(int port)
+{
+    if (m_port == port)
+        return;
+    m_port = port;
+    emit portChanged(port);
 }
 
 void Application::displayError(QAbstractSocket::SocketError socketError)

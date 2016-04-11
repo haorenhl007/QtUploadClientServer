@@ -37,6 +37,7 @@ class Application : public QObject, public qmlSingletonPattern<Application>
     Q_OBJECT
 
     Q_PROPERTY(QString destPath READ destPath WRITE setDestPath NOTIFY destPathChanged)
+    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
 
 public:
     explicit Application(QQmlEngine *qEng, QJSEngine *jEng);
@@ -49,12 +50,13 @@ public:
     int totalSize() const;
     int currentWritten() const;
     QString progressString() const;
-    bool buttonsAreLocked() const;
 
     QString destPath() const;
+    int port() const;
 
 public slots:
     void setDestPath(QString destPath);
+    void setPort(int port);
 
 private Q_SLOTS:
     void onNewConnection();
@@ -66,6 +68,7 @@ Q_SIGNALS:
     void newMessage(const QString& arg);
 
     void destPathChanged(QString destPath);
+    void portChanged(int port);
 
 private:
     QQmlEngine *m_qEng;
@@ -76,4 +79,5 @@ private:
 
     quint64 nextBlockSize;
     QString m_destPath;
+    int m_port;
 };
