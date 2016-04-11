@@ -72,12 +72,14 @@ Item {
     }
 
     Row {
+        id: __buttons
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: __progressBar.bottom
             topMargin: 20
         }
         width: 300
+        height: 30
         spacing: 40
 
         Button {
@@ -104,6 +106,89 @@ Item {
             }
         }
     }
+
+    Row {
+        id: __connectionSettings
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top: __buttons.bottom
+            margins: 20
+
+        }
+        width: parent.width - 20
+        height: 30
+        spacing: 10
+
+        Text {
+            width: 60
+            height: parent.height
+            color: "black"
+            font.pixelSize: 14
+            verticalAlignment: Text.AlignVCenter
+            wrapMode: Text.WordWrap
+            text: qsTr("Address:")
+        }
+
+        Rectangle {
+            width: 100
+            height: parent.height
+            color: "lightgrey"
+            border { width: 2; color: "grey" }
+            clip: true
+
+            TextInput {
+                id: __host
+                anchors.fill: parent
+                font.pixelSize: 14
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: TextInput.AlignHCenter
+                onTextChanged: {
+                    App.host = text;
+                }
+                Component.onCompleted: {
+                    __host.text = App.host;
+                }
+            }
+        }
+
+        Text {
+            width: 30
+            height: parent.height
+            color: "black"
+            font.pixelSize: 14
+            verticalAlignment: Text.AlignVCenter
+            wrapMode: Text.WordWrap
+            text: qsTr("port:")
+        }
+
+        Rectangle {
+            width: 100
+            height: parent.height
+            color: "lightgrey"
+            border { width: 2; color: "grey" }
+            clip: true
+
+            TextInput {
+                id: __port
+                anchors.fill: parent
+                font.pixelSize: 14
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: TextInput.AlignHCenter
+                onTextChanged: {
+                    App.port = text;
+                }
+                Component.onCompleted: {
+                    __port.text = App.port;
+                }
+            }
+        }
+
+    }
+
+
+
+
+
 
     FileDialog {
         id: __fileDialog

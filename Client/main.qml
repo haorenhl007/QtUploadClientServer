@@ -4,7 +4,7 @@ import QtQuick.Controls 1.3
 ApplicationWindow {
     visible: true
     width: 360
-    height: 300
+    height: 360
     title: qsTr("Client")
 
     MainScreen {
