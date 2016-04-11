@@ -17,6 +17,7 @@ Application::Application(QQmlEngine *qEng, QJSEngine *jEng)
     , m_jsEng(jEng)
     , m_totalSize(0)
     , m_buttonsAreLocked(false)
+    , m_port(4321)
 {
     connect(&tcpClient, &QTcpSocket::connected, this, &Application::onConnected);
     connect(&tcpClient, &QTcpSocket::bytesWritten,
@@ -36,7 +37,10 @@ void Application::start()
     setButtonsAreLocked(true);
     bytesWritten = 0;
 
-    tcpClient.connectToHost(QHostAddress::LocalHost, 4321);
+    if (!m_host.length() || m_host.contains("localhost", Qt::CaseInsensitive))
+        tcpClient.connectToHost(QHostAddress::LocalHost, m_port);
+    else
+        tcpClient.connectToHost(m_host, m_port);
     tcpClient.waitForConnected(5000);
 }
 
@@ -63,6 +67,16 @@ bool Application::buttonsAreLocked() const
 QString Application::filePath() const
 {
     return m_filePath;
+}
+
+QString Application::host() const
+{
+    return m_host;
+}
+
+int Application::port() const
+{
+    return m_port;
 }
 
 void Application::updateClientProgress(qint64 numBytes)
@@ -137,6 +151,22 @@ void Application::setFilePath(QString filePath)
     emit filePathChanged(filePath);
 }
 
+void Application::setHost(QString host)
+{
+    if (m_host == host)
+        return;
+    m_host = host;
+    emit hostChanged(host);
+}
+
+void Application::setPort(int port)
+{
+    if (m_port == port)
+        return;
+    m_port = port;
+    emit portChanged(port);
+}
+
 void Application::onConnected()
 {
     QByteArray block;
@@ -153,6 +183,3 @@ void Application::onConnected()
 
     setTotalSize((int)file.size());
 }
-
-
-

@@ -24,6 +24,8 @@ class Application : public QObject, public qmlSingletonPattern<Application>
     Q_PROPERTY(QString progressString READ progressString WRITE setProgressString NOTIFY progressStringChanged)
     Q_PROPERTY(bool buttonsAreLocked READ buttonsAreLocked WRITE setButtonsAreLocked NOTIFY buttonsAreLockedChanged)
     Q_PROPERTY(QString filePath READ filePath WRITE setFilePath NOTIFY filePathChanged)
+    Q_PROPERTY(QString host READ host WRITE setHost NOTIFY hostChanged)
+    Q_PROPERTY(int port READ port WRITE setPort NOTIFY portChanged)
 
 public:
     explicit Application(QQmlEngine *qEng, QJSEngine *jEng);
@@ -37,6 +39,8 @@ public:
     QString progressString() const;
     bool buttonsAreLocked() const;
     QString filePath() const;
+    QString host() const;
+    int port() const;
 
 public Q_SLOTS:
     void setTotalSize(int totalSize);
@@ -44,6 +48,8 @@ public Q_SLOTS:
     void setProgressString(QString progressString);
     void setButtonsAreLocked(bool buttonsAreLocked);
     void setFilePath(QString filePath);
+    void setHost(QString host);
+    void setPort(int port);
 
 private Q_SLOTS:
     void onConnected();
@@ -59,6 +65,10 @@ Q_SIGNALS:
 
     void newMessage(const QString& arg);
 
+    void hostChanged(QString host);
+
+    void portChanged(int port);
+
 private:
     QQmlEngine *m_qEng;
     QJSEngine *m_jsEng;
@@ -72,4 +82,6 @@ private:
     QString m_progressString;
     bool m_buttonsAreLocked;
     QString m_filePath;
+    QString m_host;
+    int m_port;
 };
