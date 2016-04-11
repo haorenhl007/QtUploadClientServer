@@ -49,7 +49,7 @@ Item {
         id: __buttons
         anchors {
             horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
+            bottom: __connectionSettings.top
             bottomMargin: 20
         }
         width: 320
@@ -60,7 +60,7 @@ Item {
             id: __startButton
             width: 80
             height: 30
-            text: qsTr("start")
+            text: qsTr("Listen")
 
 
             onClicked: {
@@ -72,8 +72,9 @@ Item {
             id: __stopButton
             width: 80
             height: 30
-            text: qsTr("stop")
+            text: qsTr("Stop")
             onClicked: {
+                App.stop();
             }
         }
         Button {
@@ -83,6 +84,50 @@ Item {
             text: qsTr("Select file")
             onClicked: {
                 __fileDialog.savefile();
+            }
+        }
+    }
+
+    Row {
+        id: __connectionSettings
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            margins: 20
+        }
+        width: parent.width - 40
+        height: 30
+        spacing: 10
+
+        Text {
+            width: 40
+            height: parent.height
+            color: "black"
+            font.pixelSize: 14
+            verticalAlignment: Text.AlignVCenter
+            wrapMode: Text.WordWrap
+            text: qsTr("port:")
+        }
+
+        Rectangle {
+            width: 100
+            height: parent.height
+            color: "lightgrey"
+            border { width: 2; color: "grey" }
+            clip: true
+
+            TextInput {
+                id: __portInput
+                anchors.fill: parent
+                font.pixelSize: 14
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: TextInput.AlignHCenter
+                onTextChanged: {
+                    App.port = text;
+                }
+                Component.onCompleted: {
+                    __portInput.text = App.port;
+                }
             }
         }
     }
@@ -97,7 +142,7 @@ Item {
 
         selectExisting: false
         folder: shortcuts.home
-        nameFilters: ["All files (*.*)"]
+        nameFilters: ["All files (*)"]
         onAccepted: {
             App.destPath = fileUrl;
         }
